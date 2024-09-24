@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Mila Kunis",
+    "role": "Admin",
+    "created": "2013/08/08",
+    "status": "Inactive",
+    "email": "mila@kunis.com",
+    "avatar": "images/woman.png"
+  },
+  {
+    "name": "Shahd Salahat",
+    "role": "Admin",
+    "created": "2013/12/10",
+    "status": "Active",
+    "email": "shahd@salahat.com",
+    "avatar": "images/woman (1).png"
+  },
+  {
+    "name": "George Clooney",
+    "role": "Member",
+    "created": "2013/09/12",
+    "status": "Active",
+    "email": "marlon@brando.com",
+    "avatar": "images/man.png"
+  },
+  {
+    "name": "Ryan Gossling",
+    "role": "Registered",
+    "created": "2013/03/03",
+    "status": "Banned",
+    "email": "jack@nicholson.com",
+    "avatar": "images/woman2.png"
+  },
+  {
+    "name": "Emma Watson",
+    "role": "Registered",
+    "created": "2020/02/24",
+    "status": "Pending",
+    "email": "humphury@bogart.com",
+    "avatar": "images/arab-woman.png"
+  },
+  {
+    "name": "Robert Downey Jr.",
+    "role": "Admin",
+    "created": "2013/12/31",
+    "status": "Active",
+    "email": "spencer@tracy.com",
+    "avatar": "images/man.png"
+  }
+]
