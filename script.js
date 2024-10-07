@@ -1,9 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('users.json')
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const tableContainer = document.getElementById('table-container');
+
+
+    loadingSpinner.style.display = 'block';
+    tableContainer.style.display = 'none';
+
+
+    fetch('https://randomuser.me/api/?results=10')
         .then(response => response.json())
-        .then(data => populateTable(data))
+        .then(data => {
+
+            loadingSpinner.style.display = 'none';
+            tableContainer.style.display = 'block';
+
+
+            populateTable(data.results);
+        })
         .catch(error => {
             console.error('Error fetching the data:', error);
+
+
+            loadingSpinner.style.display = 'none';
             const errorMessage = document.createElement('div');
             errorMessage.classList.add('alert', 'alert-danger');
             errorMessage.textContent = 'Failed to load user data. Please try again later.';
@@ -15,13 +33,6 @@ function populateTable(users) {
     const tbody = document.querySelector('tbody');
     tbody.replaceChildren(); // Clear previous rows
 
-    const statusClasses = {
-        'Active': 'bg-success',
-        'Inactive': 'bg-secondary',
-        'Banned': 'bg-danger',
-        'Pending': 'bg-warning'
-    };
-
     users.forEach(user => {
         const row = document.createElement('tr'); // Create new row
 
@@ -29,17 +40,17 @@ function populateTable(users) {
         const userCell = document.createElement('td');
         userCell.innerHTML = `
             <div class="d-flex align-items-center">
-                <img src="${user.avatar}" class="avatar" alt="Avatar" onerror="this.src='default-avatar.png'">
+                <img src="${user.picture.thumbnail}" class="avatar" alt="Avatar">
                 <div class="ms-2">
-                    ${user.name}
-                    <br><span class="text-muted">${user.role}</span>
+                    ${user.name.first} ${user.name.last}
+                    <br><span class="text-muted">${user.login.username}</span>
                 </div>
             </div>`;
         row.appendChild(userCell);
 
         // Created Date
         const createdCell = document.createElement('td');
-        const createdDate = new Date(user.created).toLocaleDateString('en-US', {
+        const createdDate = new Date(user.registered.date).toLocaleDateString('en-US', {
             year: 'numeric', month: 'short', day: 'numeric'
         });
         createdCell.textContent = createdDate;
@@ -47,9 +58,10 @@ function populateTable(users) {
 
         // Status
         const statusCell = document.createElement('td');
+        const status = getRandomStatus(); // Generate a random status
         const statusBadge = document.createElement('span');
-        statusBadge.classList.add('badge', statusClasses[user.status] || 'bg-dark');
-        statusBadge.textContent = user.status;
+        statusBadge.classList.add('badge', getStatusClass(status));
+        statusBadge.textContent = status;
         statusCell.appendChild(statusBadge);
         row.appendChild(statusCell);
 
@@ -66,7 +78,23 @@ function populateTable(users) {
             <button class="btn btn-danger btn-sm" aria-label="Delete user"><i class="bi bi-trash"></i></button>`;
         row.appendChild(actionCell);
 
-
         tbody.appendChild(row);
     });
+}
+
+
+function getRandomStatus() {
+    const statuses = ['Active', 'Inactive', 'Banned', 'Pending'];
+    return statuses[Math.floor(Math.random() * statuses.length)];
+}
+
+
+function getStatusClass(status) {
+    const statusClasses = {
+        'Active': 'bg-success',
+        'Inactive': 'bg-secondary',
+        'Banned': 'bg-danger',
+        'Pending': 'bg-warning'
+    };
+    return statusClasses[status] || 'bg-dark';
 }
